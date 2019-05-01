@@ -125,13 +125,14 @@ fmt = logging.Formatter(fmt=DEFAULT_LOG_FORMAT)
 LOG_DIR = '/var/log/tree_compare'
 
 fh = None
-if not os.path.exists(LOG_DIR):
-    try:
+try:
+    if not os.path.exists(LOG_DIR):
         os.makedirs(LOG_DIR)
-        log_file = "{0}.log".format(os.path.join(LOG_DIR, script_name))
-        fh = logging.FileHandler(log_file)
-    except OSError as e:
-        fh = logging.StreamHandler()
+    log_file = "{0}.log".format(os.path.join(LOG_DIR, script_name))
+    fh = logging.FileHandler(log_file)
+except OSError as e:
+    fh = logging.StreamHandler()
+
 if fh:
     fh.setFormatter(fmt)
     logger.addHandler(fh)
